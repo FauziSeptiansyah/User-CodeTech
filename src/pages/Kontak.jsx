@@ -1,50 +1,26 @@
 import { Layout } from "../layout/Layout";
-import heroImage from "../assets/image/hero.png";
+import FetchData from "../hooks/FetchData";
 
-import telepon from "../assets/image/telepon.png";
+// icon kontak
+import phone from "../assets/image/telepon.png";
 import email from "../assets/image/email.png";
-import jam from "../assets/image/jam.png";
+import office_operation from "../assets/image/jam.png";
 
 export const Kontak = () => {
-  const hero = {
-    image: heroImage,
-    page: {
-      pageHome: {
-        title: "Bangun Masa Depan Digital Anda Bersama Codetech",
-        slogan: "Pilihan Utama anda dalam Membangun Website Profesional",
-      },
-      pageProfil: {
-        title: "Profil Kami",
-        slogan:
-          "Bersama tim ahli kami, kami siap membantu Anda menciptakan pengalaman online yang memukau dan mengubah pengunjung menjadi pelanggan setia.",
-      },
-      pageLayanan: {
-        title: "Layanan Kami",
-        slogan:
-          "Bersama tim ahli kami, kami siap membantu Anda menciptakan pengalaman online yang memukau dan mengubah pengunjung menjadi pelanggan setia.",
-      },
-      pagePortofolio: {
-        title: "Portofolio",
-        slogan:
-          "Bersama tim ahli kami, kami siap membantu Anda menciptakan pengalaman online yang memukau dan mengubah pengunjung menjadi pelanggan setia.",
-      },
-      pageFaq: {
-        title: "Frequently Asked Questions",
-        slogan:
-          "Bersama tim ahli kami, kami siap membantu Anda menciptakan pengalaman online yang memukau dan mengubah pengunjung menjadi pelanggan setia.",
-      },
-      pageBlog: {
-        title: "Blog",
-        slogan:
-          "Bersama tim ahli kami, kami siap membantu Anda menciptakan pengalaman online yang memukau dan mengubah pengunjung menjadi pelanggan setia.",
-      },
-      pageKontak: {
-        title: "Kontak",
-        slogan:
-          "Bersama tim ahli kami, kami siap membantu Anda menciptakan pengalaman online yang memukau dan mengubah pengunjung menjadi pelanggan setia.",
-      },
-    },
-  };
+  const api = import.meta.env.VITE_API;
+
+  // Hit data page
+  const { data: dataPage } = FetchData({
+    url: `${api}/pages`,
+  });
+
+  // Cek dataPage sebelum filter
+  const pagesFilter = dataPage?.data?.filter((page) => page.type === "kontak");
+
+  // Hit data Kontak
+  const { data: dataKontak } = FetchData({
+    url: `${api}/contacts`,
+  });
 
   const mapContent = {
     subtitle: "Tanya Jawab",
@@ -53,50 +29,26 @@ export const Kontak = () => {
       "Kami telah mengumpulkan pertanyaan umum yang sering diajukan oleh klien kami dan menjawabnya secara komprehensif.",
   };
 
-  const kontakList = [
-    {
-      id: 1,
-      icon: telepon,
-      title: "Nomor Telpon",
-      main: "0812-3456-7890",
-    },
-    {
-      id: 2,
-      icon: email,
-      title: "Alamat Email",
-      main: "2M8e8@example.com",
-    },
-    {
-      id: 3,
-      icon: jam,
-      title: "Jam Operasional",
-      main: "Senin - Jumat: 08:00 - 17:00",
-    },
-  ];
-
   return (
     <Layout>
-      {/* Hero */}
       <section className="relative w-full">
-        <div className="relative h-full w-full">
-          <img
-            src={hero.image}
-            alt="Hero Background"
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 flex items-center justify-center px-4 text-center -mt-20">
-            <div className="max-w-6xl">
-              <div className="mb-10">
-                <h1 className="mb-3 text-5xl font-bold">
-                  {hero.page.pageKontak.title}
-                </h1>
-                <p className="text-md text-gray-400">
-                  {hero.page.pageKontak.slogan}
-                </p>
+        {pagesFilter?.map((page) => (
+          <div key={page.id} className="relative h-full w-full">
+            <img
+              src={`${import.meta.env.VITE_IMG}${page.banner}`}
+              alt="Hero Background"
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 flex items-center justify-center px-4 text-center -mt-20">
+              <div className="max-w-6xl">
+                <div className="mb-10">
+                  <h1 className="mb-3 text-5xl font-bold">{page.title}</h1>
+                  <p className="text-md text-gray-400">{page.description}</p>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        ))}
       </section>
 
       {/* Kontak */}
@@ -114,18 +66,44 @@ export const Kontak = () => {
 
           {/* Kontak List */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20">
-            {kontakList.map((item) => (
-              <div
-                key={item.id}
-                className="flex items-start rounded-xl p-5 shadow-sm space-x-4"
-              >
-                <img src={item.icon} alt={item.title} className="w-10 h-10" />
-                <div className="text-left">
-                  <p className="font-semibold text-gray-800">{item.title}</p>
-                  <p className="text-gray-600 text-sm">{item.main}</p>
-                </div>
+            {/* Phone */}
+            <div className="flex items-start rounded-xl p-5 shadow-sm space-x-4">
+              <img
+                src={phone}
+                alt={dataKontak?.data?.phone}
+                className="w-10 h-10"
+              />
+              <div className="text-left">
+                <p className="font-semibold text-gray-800">Phone</p>
+                <p className="text-gray-600 text-sm">{dataKontak?.data?.phone}</p>
               </div>
-            ))}
+            </div>
+
+            {/* Email */}
+            <div className="flex items-start rounded-xl p-5 shadow-sm space-x-4">
+              <img
+                src={email}
+                alt={dataKontak?.data?.email}
+                className="w-10 h-10"
+              />
+              <div className="text-left">
+                <p className="font-semibold text-gray-800">Email</p>
+                <p className="text-gray-600 text-sm">{dataKontak?.data?.email}</p>
+              </div>
+            </div>
+
+            {/* Whatsapp */}
+            <div className="flex items-start rounded-xl p-5 shadow-sm space-x-4">
+              <img
+                src={office_operation}
+                alt={dataKontak?.data?.office_operation}
+                className="w-10 h-10"
+              />
+              <div className="text-left">
+                <p className="font-semibold text-gray-800">Office Operation</p>
+                <p className="text-gray-600 text-sm">{dataKontak?.data?.office_operation}</p>
+              </div>
+            </div>
           </div>
 
           {/* Map */}
@@ -153,11 +131,7 @@ export const Kontak = () => {
                     Alamat Kantor
                   </h4>
                   <p className="text-gray-600 leading-relaxed">
-                    Jl. Edy Santoso Rawageni, Ratu Jaya,
-                    <br />
-                    Cipayung, Depok, Jawa Barat 16439
-                    <br />
-                    Indonesia
+                    {dataKontak?.data?.address}
                   </p>
                 </div>
               </div>

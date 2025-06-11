@@ -1,174 +1,26 @@
 import { Layout } from "../layout/Layout";
-import { Link, useParams } from "react-router-dom";
-import heroImage from "../assets/image/hero.png";
-import blogImage from "../assets/image/blog.png";
+import { data, Link, useParams } from "react-router-dom";
+import FetchData from "../hooks/FetchData";
 
 export const DetailBlog = () => {
-  const hero = {
-    image: heroImage,
-    page: {
-      pageHome: {
-        title: "Bangun Masa Depan Digital Anda Bersama Codetech",
-        slogan: "Pilihan Utama anda dalam Membangun Website Profesional",
-      },
-      pageProfil: {
-        title: "Profil Kami",
-        slogan:
-          "Bersama tim ahli kami, kami siap membantu Anda menciptakan pengalaman online yang memukau dan mengubah pengunjung menjadi pelanggan setia.",
-      },
-      pageLayanan: {
-        title: "Layanan Kami",
-        slogan:
-          "Bersama tim ahli kami, kami siap membantu Anda menciptakan pengalaman online yang memukau dan mengubah pengunjung menjadi pelanggan setia.",
-      },
-      pagePortofolio: {
-        title: "Portofolio",
-        slogan:
-          "Bersama tim ahli kami, kami siap membantu Anda menciptakan pengalaman online yang memukau dan mengubah pengunjung menjadi pelanggan setia.",
-      },
-      pageFaq: {
-        title: "Frequently Asked Questions",
-        slogan:
-          "Bersama tim ahli kami, kami siap membantu Anda menciptakan pengalaman online yang memukau dan mengubah pengunjung menjadi pelanggan setia.",
-      },
-      pageBlog: {
-        title: "Blog",
-        slogan:
-          "Bersama tim ahli kami, kami siap membantu Anda menciptakan pengalaman online yang memukau dan mengubah pengunjung menjadi pelanggan setia.",
-      },
-      pageKontak: {
-        title: "Kontak",
-        slogan:
-          "Bersama tim ahli kami, kami siap membantu Anda menciptakan pengalaman online yang memukau dan mengubah pengunjung menjadi pelanggan setia.",
-      },
-    },
-  };
+  const api = import.meta.env.VITE_API;
 
-  const categoryBlog = [
-    {
-      id: 1,
-      title: "Website",
-    },
-    {
-      id: 2,
-      title: "CodeTech",
-    },
-    {
-      id: 3,
-      title: "Aplikasi",
-    },
-  ];
+  // Hit data page
+  const { data: dataPage } = FetchData({ url: `${api}/pages` });
 
-  const blog = [
-    {
-      id: 1,
-      title: "Paket Website Profesional: Membangun Identitas Online Anda",
-      image: blogImage,
-      category: "Website",
-      slug: "paket-website-profesional-membangun-identitas-online-anda",
-      date: "10/04/2025",
-      description: [
-        "Dalam era digital saat ini, memiliki website profesional bukan lagi pilihan, tetapi kebutuhan.",
-        "Website Anda adalah representasi online dari bisnis Anda dan memainkan peran penting dalam membentuk persepsi pelanggan.",
-        "Paket Website Profesional dirancang untuk membantu Anda membangun identitas online yang kuat dan terpercaya.",
-        "Paket ini ideal untuk bisnis yang ingin tampil profesional dan menarik di dunia maya.",
+  // Cek dataPage sebelum filter
+  const pagesFilter = dataPage?.data?.filter((page) => page.type === "blog");
 
-        "Fitur Utama:",
-        "• Desain Responsif: Website akan terlihat menarik dan berfungsi dengan baik di berbagai perangkat, mulai dari desktop hingga smartphone.",
-        "• Desain Kustom: Desain yang disesuaikan dengan branding dan kebutuhan bisnis Anda.",
-        "• Optimasi SEO Dasar: Website Anda dioptimalkan untuk mesin pencari agar lebih mudah ditemukan oleh calon pelanggan.",
-        "• Integrasi Media Sosial: Tautkan akun media sosial Anda untuk meningkatkan interaksi dan jangkauan.",
-        "• Formulir Kontak: Memudahkan pengunjung untuk menghubungi Anda secara langsung melalui website.",
-        "• Galeri atau Portofolio: Tampilkan produk, layanan, atau hasil kerja Anda dengan tampilan yang menarik.",
-        "• Halaman Tentang Kami dan Layanan: Informasi lengkap tentang siapa Anda dan apa yang Anda tawarkan.",
-        "• CMS (Content Management System): Kemudahan mengelola dan memperbarui konten website sendiri tanpa keahlian teknis.",
-        "• Domain dan Hosting: Termasuk domain dan layanan hosting selama 1 tahun.",
-        "• Dukungan Teknis: Bantuan teknis selama proses pembangunan dan setelah website selesai.",
+  // Hit data kategori
+  const { data: dataCategories } = FetchData({
+    url: `${api}/category-articles`,
+  });
 
-        "Manfaat:",
-        "• Meningkatkan kredibilitas bisnis Anda.",
-        "• Menjangkau audiens yang lebih luas.",
-        "• Memberikan informasi yang jelas dan mudah diakses tentang produk atau layanan Anda.",
-        "• Meningkatkan peluang konversi dan penjualan.",
-        "• Memperkuat identitas merek Anda secara online.",
-
-        "Paket Website Profesional adalah solusi tepat bagi Anda yang ingin memulai atau memperbarui kehadiran online Anda dengan cara yang efektif dan efisien.",
-      ],
-    },
-    {
-      id: 2,
-      title: "website bussines untuk anda",
-      image: blogImage,
-      category: "Website",
-      slug: "website-bussines-untuk-anda",
-      date: "10/04/2025",
-      description: [
-        "Dalam era digital saat ini, memiliki website profesional bukan lagi pilihan, tetapi kebutuhan.",
-        "Website Anda adalah representasi online dari bisnis Anda dan memainkan peran penting dalam membentuk persepsi pelanggan.",
-        "Paket Website Profesional dirancang untuk membantu Anda membangun identitas online yang kuat dan terpercaya.",
-        "Paket ini ideal untuk bisnis yang ingin tampil profesional dan menarik di dunia maya.",
-
-        "Fitur Utama:",
-        "• Desain Responsif: Website akan terlihat menarik dan berfungsi dengan baik di berbagai perangkat, mulai dari desktop hingga smartphone.",
-        "• Desain Kustom: Desain yang disesuaikan dengan branding dan kebutuhan bisnis Anda.",
-        "• Optimasi SEO Dasar: Website Anda dioptimalkan untuk mesin pencari agar lebih mudah ditemukan oleh calon pelanggan.",
-        "• Integrasi Media Sosial: Tautkan akun media sosial Anda untuk meningkatkan interaksi dan jangkauan.",
-        "• Formulir Kontak: Memudahkan pengunjung untuk menghubungi Anda secara langsung melalui website.",
-        "• Galeri atau Portofolio: Tampilkan produk, layanan, atau hasil kerja Anda dengan tampilan yang menarik.",
-        "• Halaman Tentang Kami dan Layanan: Informasi lengkap tentang siapa Anda dan apa yang Anda tawarkan.",
-        "• CMS (Content Management System): Kemudahan mengelola dan memperbarui konten website sendiri tanpa keahlian teknis.",
-        "• Domain dan Hosting: Termasuk domain dan layanan hosting selama 1 tahun.",
-        "• Dukungan Teknis: Bantuan teknis selama proses pembangunan dan setelah website selesai.",
-
-        "Manfaat:",
-        "• Meningkatkan kredibilitas bisnis Anda.",
-        "• Menjangkau audiens yang lebih luas.",
-        "• Memberikan informasi yang jelas dan mudah diakses tentang produk atau layanan Anda.",
-        "• Meningkatkan peluang konversi dan penjualan.",
-        "• Memperkuat identitas merek Anda secara online.",
-
-        "Paket Website Profesional adalah solusi tepat bagi Anda yang ingin memulai atau memperbarui kehadiran online Anda dengan cara yang efektif dan efisien.",
-      ],
-    },
-    {
-      id: 3,
-      title: "CodeTech Dibangun Pada Tahun 2025",
-      image: blogImage,
-      category: "Website",
-      slug: "codetech-dibangun-pada-tahun-2025",
-      date: "10/04/2025",
-      description: [
-        "Dalam era digital saat ini, memiliki website profesional bukan lagi pilihan, tetapi kebutuhan.",
-        "Website Anda adalah representasi online dari bisnis Anda dan memainkan peran penting dalam membentuk persepsi pelanggan.",
-        "Paket Website Profesional dirancang untuk membantu Anda membangun identitas online yang kuat dan terpercaya.",
-        "Paket ini ideal untuk bisnis yang ingin tampil profesional dan menarik di dunia maya.",
-
-        "Fitur Utama:",
-        "• Desain Responsif: Website akan terlihat menarik dan berfungsi dengan baik di berbagai perangkat, mulai dari desktop hingga smartphone.",
-        "• Desain Kustom: Desain yang disesuaikan dengan branding dan kebutuhan bisnis Anda.",
-        "• Optimasi SEO Dasar: Website Anda dioptimalkan untuk mesin pencari agar lebih mudah ditemukan oleh calon pelanggan.",
-        "• Integrasi Media Sosial: Tautkan akun media sosial Anda untuk meningkatkan interaksi dan jangkauan.",
-        "• Formulir Kontak: Memudahkan pengunjung untuk menghubungi Anda secara langsung melalui website.",
-        "• Galeri atau Portofolio: Tampilkan produk, layanan, atau hasil kerja Anda dengan tampilan yang menarik.",
-        "• Halaman Tentang Kami dan Layanan: Informasi lengkap tentang siapa Anda dan apa yang Anda tawarkan.",
-        "• CMS (Content Management System): Kemudahan mengelola dan memperbarui konten website sendiri tanpa keahlian teknis.",
-        "• Domain dan Hosting: Termasuk domain dan layanan hosting selama 1 tahun.",
-        "• Dukungan Teknis: Bantuan teknis selama proses pembangunan dan setelah website selesai.",
-
-        "Manfaat:",
-        "• Meningkatkan kredibilitas bisnis Anda.",
-        "• Menjangkau audiens yang lebih luas.",
-        "• Memberikan informasi yang jelas dan mudah diakses tentang produk atau layanan Anda.",
-        "• Meningkatkan peluang konversi dan penjualan.",
-        "• Memperkuat identitas merek Anda secara online.",
-
-        "Paket Website Profesional adalah solusi tepat bagi Anda yang ingin memulai atau memperbarui kehadiran online Anda dengan cara yang efektif dan efisien.",
-      ],
-    },
-  ];
+  // Hit data blog
+  const { data: dataBlog } = FetchData({ url: `${api}/articles` });
 
   const { slug } = useParams();
-  const selectedBlog = blog.find((item) => item.slug === slug);
+  const selectedBlog = dataBlog?.data?.find((blog) => blog.slug === slug);
 
   if (!selectedBlog) {
     return <div>Blog not found</div>;
@@ -176,27 +28,24 @@ export const DetailBlog = () => {
 
   return (
     <Layout>
-      {/* Hero */}
       <section className="relative w-full">
-        <div className="relative h-full w-full">
-          <img
-            src={hero.image}
-            alt="Hero Background"
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 flex items-center justify-center px-4 text-center -mt-20">
-            <div className="max-w-6xl">
-              <div className="mb-10">
-                <h1 className="mb-3 text-5xl font-bold">
-                  {hero.page.pageBlog.title}
-                </h1>
-                <p className="text-md text-gray-400">
-                  {hero.page.pageBlog.slogan}
-                </p>
+        {pagesFilter?.map((page) => (
+          <div key={page.id} className="relative h-full w-full">
+            <img
+              src={`${import.meta.env.VITE_IMG}${page.banner}`}
+              alt="Hero Background"
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 flex items-center justify-center px-4 text-center -mt-20">
+              <div className="max-w-6xl">
+                <div className="mb-10">
+                  <h1 className="mb-3 text-5xl font-bold">{page.title}</h1>
+                  <p className="text-md text-gray-400">{page.description}</p>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        ))}
       </section>
 
       {/* Blog */}
@@ -207,7 +56,7 @@ export const DetailBlog = () => {
             <div className="col-span-2 w-full items-start text-left">
               <div className="overflow-hidden mb-8">
                 <img
-                  src={selectedBlog.image}
+                  src={`${import.meta.env.VITE_IMG}${selectedBlog.thumbnail}`}
                   alt={selectedBlog.title}
                   className="w-full h-64 object-cover rounded-lg"
                 />
@@ -217,12 +66,10 @@ export const DetailBlog = () => {
                   {selectedBlog.title}
                 </h1>
                 <span className="text-sm text-indigo-600 font-medium">
-                  Post / 0
+                  Post on : {selectedBlog.created_at && selectedBlog.created_at.slice(0, 10)}
                 </span>
                 <div className="text-gray-700 text-base space-y-4">
-                  {selectedBlog.description.map((text, index) => (
-                    <p key={index}>{text}</p>
-                  ))}
+                  {selectedBlog.description}
                 </div>
               </div>
             </div>
@@ -259,13 +106,13 @@ export const DetailBlog = () => {
                   Category Article
                 </h3>
                 <div className="flex flex-wrap gap-3">
-                  {categoryBlog.map((category, index) => (
+                  {dataCategories?.data?.map((category) => (
                     <a
-                      key={index}
+                      key={category.id}
                       href="#"
                       className="text-sm text-gray-600 hover:text-indigo-600 transition duration-300 border border-gray-300 px-4 py-2 rounded-full"
                     >
-                      {category.title}
+                      {category.category}
                     </a>
                   ))}
                 </div>
@@ -277,23 +124,23 @@ export const DetailBlog = () => {
                   Recent Posts
                 </h3>
                 <div className="space-y-4">
-                  {blog.map((item, index) => (
+                  {dataBlog?.data?.map((blog) => (
                     <Link
                       to="/home"
-                      key={index}
+                      key={blog.id}
                       className="flex text-start items-start space-x-3"
                     >
                       <img
-                        src={item.image}
-                        alt={item.title}
+                        src={`${import.meta.env.VITE_IMG}${blog.thumbnail}`}
+                        alt={blog.title}
                         className="w-12 h-12 rounded-md object-cover flex-shrink-0"
                       />
                       <div className="flex flex-col justify-center">
                         <h4 className="text-sm font-semibold text-gray-900 leading-tight line-clamp-2">
-                          {item.title}
+                          {blog.title}
                         </h4>
                         <span className="text-xs text-gray-400 mt-1">
-                          {item.date}
+                          {blog.created_at && blog.created_at.slice(0, 10)}
                         </span>
                       </div>
                     </Link>
