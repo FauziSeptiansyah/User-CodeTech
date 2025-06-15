@@ -2,6 +2,7 @@ import { Layout } from "../layout/Layout";
 import FetchData from "../hooks/FetchData";
 import bgImage from "../assets/image/background-blue.png";
 import { Link } from "react-router-dom";
+import AutoSwiper from "../components/AutoSwiper";
 
 export const Home = () => {
   const api = import.meta.env.VITE_API;
@@ -38,7 +39,9 @@ export const Home = () => {
   });
 
   // Cek dataProduct sebelum filter
-  const productFilter = dataProduct?.data?.filter((product) => product.type === "website");
+  const productFilter = dataProduct?.data?.filter(
+    (product) => product.type === "website"
+  );
 
   const harga = {
     subtitle: "Website",
@@ -119,11 +122,12 @@ export const Home = () => {
               {dataProfil?.data?.title}
             </h2>
             <p className="text-gray-700 mb-4">
-              {dataProfil?.data?.description && dataProfil?.data?.description.slice(
-                0,
-                360) + "..."}
+              {dataProfil?.data?.description &&
+                dataProfil?.data?.description.slice(0, 360) + "..."}
             </p>
-            <button className="btn btn-outline btn-primary"><Link to={`/profil`}>Read More</Link></button>
+            <button className="btn btn-outline btn-primary">
+              <Link to={`/profil`}>Read More</Link>
+            </button>
           </div>
         </div>
       </section>
@@ -171,46 +175,49 @@ export const Home = () => {
         style={{ backgroundImage: `url(${bgImage})` }}
       >
         {/* Harga */}
-        <section className="relative z-10 px-4">
-          <div className="max-w-6xl mx-auto px-6 text-center">
-            <h3 className="text-indigo-600 font-semibold text-sm uppercase">
-              {harga.subtitle}
-            </h3>
-            <h2 className="text-2xl md:text-3xl font-bold mb-4 text-black">
-              {harga.title}
-            </h2>
-            <p className="text-gray-600 mb-12 max-w-xl mx-auto">
-              {harga.description}
-            </p>
-
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {productFilter?.map((product, index) => (
-                <div
-                  key={index}
-                  className="bg-white rounded-xl shadow-lg p-6 flex flex-col justify-between"
-                >
-                  <h4 className="text-md font-medium mb-2">{product.title}</h4>
-                  <p className="text-gray-800 font-semibold text-xl">
-                    {product.price}
-                  </p>
-                  <span className="text-gray-400 text-sm mb-4">
-                    {product.discount}
-                  </span>
-                  <hr className="border-t border-gray-300 mb-6" />
-                  <ul className="text-left text-sm text-gray-600 mb-4 space-y-2">
-                    {/* {product.description.map((feature, idx) => (
+        <div className="bg-white max-h-1/2">
+          <section className="relative z-10 px-4">
+            <div className="max-w-6xl mx-auto px-6 text-center">
+              <h3 className="text-indigo-600 font-semibold text-sm uppercase">
+                {harga.subtitle}
+              </h3>
+              <h2 className="text-2xl md:text-3xl font-bold mb-4 text-black">
+                {harga.title}
+              </h2>
+              <p className="text-gray-600 mb-12 max-w-xl mx-auto">
+                {harga.description}
+              </p>
+              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                {productFilter?.map((product, index) => (
+                  <div
+                    key={index}
+                    className="bg-white rounded-xl shadow-lg p-6 flex flex-col justify-between"
+                  >
+                    <h4 className="text-md font-medium mb-2">
+                      {product.title}
+                    </h4>
+                    <p className="text-gray-800 font-semibold text-xl">
+                      {product.price}
+                    </p>
+                    <span className="text-gray-400 text-sm mb-4">
+                      {product.discount}
+                    </span>
+                    <hr className="border-t border-gray-300 mb-6" />
+                    <ul className="text-left text-sm text-gray-600 mb-4 space-y-2">
+                      {/* {product.description.map((feature, idx) => (
                       <li key={idx}>• {feature}</li>
                     ))} */}
-                    {product.description}
-                  </ul>
-                  <button className="bg-violet-600 text-white px-4 py-2 rounded-md hover:bg-violet-700 transition">
-                    Pesan Sekarang
-                  </button>
-                </div>
-              ))}
+                      {product.description}
+                    </ul>
+                    <button className="bg-violet-600 text-white px-4 py-2 rounded-md hover:bg-violet-700 transition">
+                      Pesan Sekarang
+                    </button>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
+        </div>
 
         {/* Portofolio */}
         <section className="relative z-10 mt-20 px-4">
@@ -224,27 +231,28 @@ export const Home = () => {
             <p className="text-gray-600 mb-12 max-w-xl mx-auto">
               {portofolio.description}
             </p>
-
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-              {dataPortofolio?.data?.map((portofolio, index) => (
-                <div
-                  key={index}
-                  className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition"
-                >
-                  <img
-                    src={`${import.meta.env.VITE_IMG}${portofolio.image}`}
-                    alt={portofolio.title}
-                    className="w-full h-48 object-cover"
-                  />
-                  <div className="p-4">
-                    <h4 className="text-sm font-semibold text-gray-800">
-                      {portofolio.title}
-                    </h4>
-                  </div>
-                </div>
-              ))}
-            </div>
           </div>
+        </section>
+
+        <section className="relative z-10 mt-10">
+          <AutoSwiper>
+            {dataPortofolio?.data?.map((portofolio, index) => (
+              <div
+                key={index}
+                className="relative w-full mx-auto overflow-hidden shadow-lg"
+              >
+                <img
+                  src={`${import.meta.env.VITE_IMG}${portofolio.image}`}
+                  alt={portofolio.title}
+                  className="w-full h-1/2 object-cover"
+                />
+
+                <div className="absolute bottom-0 w-full text-center py-1 text-sm font-bold text-gray-800">
+                  {portofolio.title}
+                </div>
+              </div>
+            ))}
+          </AutoSwiper>
         </section>
       </div>
 

@@ -1,13 +1,14 @@
 import { Layout } from "../layout/Layout";
 import FetchData from "../hooks/FetchData";
+import AutoSwiper from "../components/AutoSwiper";
 
 export const Portofolio = () => {
   const api = import.meta.env.VITE_API;
 
   // Hit data page
-    const { data: dataPage } = FetchData({
-      url: `${api}/pages`,
-    });
+  const { data: dataPage } = FetchData({
+    url: `${api}/pages`,
+  });
 
   // Cek dataPage sebelum filter
   const pagesFilter = dataPage?.data?.filter(
@@ -48,6 +49,41 @@ export const Portofolio = () => {
         ))}
       </section>
 
+      <section className="relative z-10 -mt-60">
+        <AutoSwiper>
+          {dataPortofolio?.data?.map((portofolio, index) => (
+              <div
+                key={index}
+                className="relative w-full mx-auto overflow-hidden rounded-xl shadow-lg group"
+              >
+                {/* Gambar */}
+                <img
+                  src={`${import.meta.env.VITE_IMG}${portofolio.image}`}
+                  alt={portofolio.title}
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+
+                {/* Overlay saat hover */}
+                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center text-center px-4">
+                  <div>
+                    <h3 className="text-white text-lg font-semibold mb-2">
+                      {portofolio.title}
+                    </h3>
+                    <a
+                      href={portofolio.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-sm text-blue-300 underline hover:text-blue-500"
+                    >
+                      {portofolio.url}
+                    </a>
+                  </div>
+                </div>
+              </div>
+            ))}
+        </AutoSwiper>
+      </section>
+
       {/* Portofolio */}
       <section className="relative z-10 mt-20 px-4">
         <div className="max-w-6xl mx-auto px-6 text-center">
@@ -65,17 +101,30 @@ export const Portofolio = () => {
             {dataPortofolio?.data?.map((portofolio, index) => (
               <div
                 key={index}
-                className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition"
+                className="relative w-full mx-auto overflow-hidden rounded-xl shadow-lg group"
               >
+                {/* Gambar */}
                 <img
                   src={`${import.meta.env.VITE_IMG}${portofolio.image}`}
                   alt={portofolio.title}
-                  className="w-full h-48 object-cover"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                 />
-                <div className="p-4">
-                  <h4 className="text-sm font-semibold text-gray-800">
-                    {portofolio.title}
-                  </h4>
+
+                {/* Overlay saat hover */}
+                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center text-center px-4">
+                  <div>
+                    <h3 className="text-white text-lg font-semibold mb-2">
+                      {portofolio.title}
+                    </h3>
+                    <a
+                      href={portofolio.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-sm text-blue-300 underline hover:text-blue-500"
+                    >
+                      {portofolio.url}
+                    </a>
+                  </div>
                 </div>
               </div>
             ))}

@@ -1,5 +1,6 @@
 import { Layout } from "../layout/Layout";
 import FetchData from "../hooks/FetchData";
+import PanoramaSwiper from "../components/PanoramaSwiper";
 
 export const Profil = () => {
   const api = import.meta.env.VITE_API;
@@ -69,7 +70,7 @@ export const Profil = () => {
               {dataProfil?.data?.title}
             </h2>
             <p className="text-gray-700 mb-4">
-              {dataProfil?.data?.description}
+              {dataProfil?.data?.description && dataProfil?.data?.description.slice(0, 450) + "..."}
             </p>
             <button className="btn btn-outline btn-primary">Read More</button>
           </div>
@@ -87,27 +88,27 @@ export const Profil = () => {
           <p className="text-gray-600 mb-12 max-w-xl mx-auto">
             {team.description}
           </p>
-
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {dataUsers?.data?.map((user) => (
-              <div
-                key={user.id}
-                className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition"
-              >
-                <img
-                  src={`${import.meta.env.VITE_IMG}${user.profile}`}
-                  alt={user.name}
-                  className="w-full h-48 object-cover"
-                />
-                <div className="p-4">
-                  <h4 className="text-sm font-semibold text-gray-800">
-                    {user.name}
-                  </h4>
-                </div>
-              </div>
-            ))}
-          </div>
         </div>
+      </section>
+
+      <section className="relative z-10 mt-10">
+        <PanoramaSwiper>
+          {dataUsers?.data?.map((user) => (
+            <div
+              key={user.id}
+              className="relative w-full max-w-xs mx-auto overflow-hidden shadow-lg"
+            >
+              <img
+                src={`${import.meta.env.VITE_IMG}${user.profile}`}
+                alt={user.name}
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute bottom-0 w-full text-center py-1 text-sm font-bold text-white">
+                {user.name}
+              </div>
+            </div>
+          ))}
+        </PanoramaSwiper>
       </section>
     </Layout>
   );
