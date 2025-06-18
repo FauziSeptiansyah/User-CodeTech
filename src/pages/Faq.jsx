@@ -47,28 +47,35 @@ export const Faq = () => {
 
   return (
     <Layout>
+      {/* Section Hero */}
       <section className="relative w-full">
         {pagesFilter?.map((page) => (
-          <div key={page.id} className="relative h-full w-full">
+          <div key={page.id} className="relative w-full">
+            {/* Gambar latar hero */}
             <img
               src={`${import.meta.env.VITE_IMG}${page.banner}`}
               alt="Hero Background"
-              className="w-full h-full object-cover"
+              className="w-full h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] object-cover"
             />
-            <div className="absolute inset-0 flex items-center justify-center px-4 text-center -mt-20">
+            {/* Teks overlay */}
+            <div className="absolute inset-0 flex items-center justify-center px-4 text-center -mt-10 sm:-mt-16 md:-mt-20">
               <div className="max-w-6xl">
-                <div className="mb-10">
-                  <h1 className="mb-3 text-5xl font-bold">{page.title}</h1>
-                  <p className="text-md text-gray-400">{page.description}</p>
-                </div>
+                <h1 className="mb-2 sm:mb-3 text-3xl sm:text-4xl md:text-5xl font-bold">
+                  {page.title}
+                </h1>
+                <p className="text-sm sm:text-md text-gray-400">
+                  {page.description}
+                </p>
               </div>
             </div>
           </div>
         ))}
       </section>
 
-      <section className="relative z-10 -mt-40 px-4">
+      {/* Section FAQ */}
+      <section className="relative z-10 -mt-20 sm:-mt-32 md:-mt-40 px-4">
         <div className="max-w-6xl mx-auto bg-white rounded-3xl p-6 md:p-12 text-center">
+          {/* Judul dan deskripsi FAQ */}
           <h3 className="text-indigo-600 font-semibold text-sm uppercase">
             {faqContent.subtitle}
           </h3>
@@ -89,14 +96,14 @@ export const Faq = () => {
                     setSelectedCategory(category.category);
                     setOpenIndex(null);
                   }}
-                  className={`rounded-xl shadow-lg p-6 cursor-pointer transition-all duration-300 ${
+                  className={`rounded-xl shadow-lg p-6 cursor-pointer transition ${
                     selectedCategory === category.category
                       ? "bg-gray-200"
                       : "bg-white"
                   }`}
                 >
                   <img
-                   src={`${import.meta.env.VITE_IMG}${category.icon}`}
+                    src={`${import.meta.env.VITE_IMG}${category.icon}`}
                     alt={category.category}
                     className="w-6 h-6 mx-auto mb-4"
                   />
@@ -111,14 +118,14 @@ export const Faq = () => {
             </div>
           </div>
 
-          {/* Accordion FAQ */}
+          {/* Accordion pertanyaan */}
           <div className="flex justify-center">
             <div className="w-full max-w-4xl space-y-4">
               {filteredQuestions.map((question) => (
                 <div
                   key={question.id}
-                  className="border border-gray-200 rounded-xl p-4 cursor-pointer hover:shadow transition"
                   onClick={() => toggleDropdown(question.id)}
+                  className="border border-gray-200 rounded-xl p-4 cursor-pointer hover:shadow transition"
                 >
                   <div className="flex justify-between items-center">
                     <h4 className="text-gray-800 font-semibold">

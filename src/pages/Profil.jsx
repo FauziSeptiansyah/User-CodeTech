@@ -32,19 +32,24 @@ export const Profil = () => {
 
   return (
     <Layout>
+      {/* Hero Section */}
       <section className="relative w-full">
         {pagesFilter?.map((page) => (
-          <div key={page.id} className="relative h-full w-full">
+          <div key={page.id} className="relative w-full">
             <img
               src={`${import.meta.env.VITE_IMG}${page.banner}`}
               alt="Hero Background"
-              className="w-full h-full object-cover"
+              className="w-full h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] object-cover"
             />
-            <div className="absolute inset-0 flex items-center justify-center px-4 text-center -mt-20">
+            <div className="absolute inset-0 flex items-center justify-center px-4 text-center -mt-10 sm:-mt-16 md:-mt-20">
               <div className="max-w-6xl">
-                <div className="mb-10">
-                  <h1 className="mb-3 text-5xl font-bold">{page.title}</h1>
-                  <p className="text-md text-gray-400">{page.description}</p>
+                <div className="mb-6 sm:mb-8 md:mb-10">
+                  <h1 className="mb-2 sm:mb-3 text-3xl sm:text-4xl md:text-5xl font-bold">
+                    {page.title}
+                  </h1>
+                  <p className="text-sm sm:text-base text-gray-400">
+                    {page.description}
+                  </p>
                 </div>
               </div>
             </div>
@@ -52,8 +57,9 @@ export const Profil = () => {
         ))}
       </section>
 
-      <section className="relative z-10 -mt-40 px-4">
-        <div className="max-w-6xl mx-auto bg-white rounded-3xl bg-gradient-to-b from-white to-0% p-6 md:p-12 flex flex-col md:flex-row items-center gap-8">
+      {/* Profil Singkat */}
+      <section className="relative z-10 -mt-20 sm:-mt-32 md:-mt-40 px-4">
+        <div className="max-w-6xl mx-auto bg-white rounded-3xl p-4 sm:p-6 md:p-12 flex flex-col md:flex-row items-center gap-6 md:gap-8">
           <div className="w-full md:w-1/2">
             <img
               src={`${import.meta.env.VITE_IMG}${dataProfil?.data?.image}`}
@@ -61,49 +67,52 @@ export const Profil = () => {
               className="w-full h-auto rounded-xl object-cover"
             />
           </div>
-
           <div className="w-full md:w-1/2">
-            <h3 className="text-indigo-600 font-semibold text-sm uppercase">
+            <h3 className="text-indigo-600 font-semibold text-xs sm:text-sm uppercase">
               Halo!
             </h3>
-            <h2 className="text-2xl md:text-3xl font-bold mb-4 text-black">
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-3 sm:mb-4 text-black">
               {dataProfil?.data?.title}
             </h2>
-            <p className="text-gray-700 mb-4">
-              {dataProfil?.data?.description && dataProfil?.data?.description.slice(0, 450) + "..."}
+            <p className="text-gray-700 mb-3 sm:mb-4 text-sm sm:text-base">
+              {dataProfil?.data?.description?.slice(0, 450) + "..."}
             </p>
-            <button className="btn btn-outline btn-primary">Read More</button>
+            <button className="btn btn-outline btn-primary text-sm sm:text-base">
+              Read More
+            </button>
           </div>
         </div>
       </section>
 
-      <section className="relative z-10 mt-20 px-4">
-        <div className="max-w-6xl mx-auto px-6 text-center">
-          <h3 className="text-indigo-600 font-semibold text-sm uppercase">
+      {/* Section Judul Team / Crew */}
+      <section className="relative z-10 mt-12 sm:mt-16 md:mt-20 px-4">
+        <div className="max-w-6xl mx-auto text-center px-4 sm:px-6">
+          <h3 className="text-indigo-600 font-semibold text-xs sm:text-sm uppercase">
             {team.subtitle}
           </h3>
-          <h2 className="text-2xl md:text-3xl font-bold mb-4 text-black">
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-3 sm:mb-4 text-black">
             {team.title}
           </h2>
-          <p className="text-gray-600 mb-12 max-w-xl mx-auto">
+          <p className="text-gray-600 mb-8 sm:mb-10 md:mb-12 max-w-xl mx-auto text-sm sm:text-base">
             {team.description}
           </p>
         </div>
       </section>
 
-      <section className="relative z-10 mt-10">
+      {/* Swiper Data Crew */}
+      <section className="relative z-10 mt-8 sm:mt-10">
         <PanoramaSwiper>
           {dataUsers?.data?.map((user) => (
             <div
               key={user.id}
-              className="relative w-full max-w-xs mx-auto overflow-hidden shadow-lg"
+              className="relative w-full max-w-xs mx-auto overflow-hidden shadow-lg rounded-xl"
             >
               <img
                 src={`${import.meta.env.VITE_IMG}${user.profile}`}
                 alt={user.name}
                 className="w-full h-full object-cover"
               />
-              <div className="absolute bottom-0 w-full text-center py-1 text-sm font-bold text-white">
+              <div className="absolute bottom-0 w-full text-center py-1 text-sm font-bold text-white bg-black/50">
                 {user.name}
               </div>
             </div>

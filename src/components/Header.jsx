@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 export const Header = () => {
+  // Data untuk brand dan menu navbar
   const navbar = {
     navbarBrand: "CodeTech",
     navbarMenu: [
@@ -11,7 +12,11 @@ export const Header = () => {
         name: "Layanan",
         url: "/layanan",
         section: [
-          { id: 1, name: "Jasa Pembuatan Website", url: "/jasa-pembuatan-website" },
+          {
+            id: 1,
+            name: "Jasa Pembuatan Website",
+            url: "/jasa-pembuatan-website",
+          },
           { id: 2, name: "Creative Agency", url: "/creative-agency" },
           { id: 3, name: "Features", url: "/features" },
         ],
@@ -36,11 +41,12 @@ export const Header = () => {
   return (
     <div
       className={`navbar fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
-        scrolled ? "bg-white/40 backdrop-blur-md shadow-sm text-cyan-600" : "bg-transparent"
+        scrolled
+          ? "bg-white/40 backdrop-blur-md shadow-sm text-black"
+          : "bg-transparent"
       }`}
     >
       <div className="max-w-7xl mx-auto w-full px-4 flex items-center justify-between">
-        
         {/* Navbar Start */}
         <div className="navbar-start">
           {/* Mobile Dropdown */}
@@ -63,19 +69,21 @@ export const Header = () => {
             </div>
             <ul
               tabIndex={0}
-              className="menu menu-sm dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52 z-50"
+              className="menu menu-sm dropdown-content mt-3 p-2 shadow bg-white/40 backdrop-blur-md rounded-box w-52 text-black"
             >
               {navbar.navbarMenu.map((item) =>
                 item.section ? (
                   <li key={item.id}>
-                    <a>{item.name}</a>
-                    <ul className="p-2">
-                      {item.section.map((sub) => (
-                        <li key={sub.id}>
-                          <a href={sub.url}>{sub.name}</a>
-                        </li>
-                      ))}
-                    </ul>
+                    <details>
+                      <summary>{item.name}</summary>
+                      <ul className="p-2 text-black">
+                        {item.section.map((sub) => (
+                          <li key={sub.id}>
+                            <a href={sub.url}>{sub.name}</a>
+                          </li>
+                        ))}
+                      </ul>
+                    </details>
                   </li>
                 ) : (
                   <li key={item.id}>
@@ -86,7 +94,7 @@ export const Header = () => {
             </ul>
           </div>
 
-          {/* Desktop Menu Left (Home–Portofolio) */}
+          {/* Desktop Menu Left */}
           <div className="hidden lg:flex">
             <ul className="menu menu-horizontal px-1">
               {navbar.navbarMenu.slice(0, 4).map((item) =>
@@ -94,7 +102,7 @@ export const Header = () => {
                   <li key={item.id}>
                     <details>
                       <summary>{item.name}</summary>
-                      <ul className="p-2">
+                      <ul className="p-2 w-52 bg-white/40 backdrop-blur-md text-black">
                         {item.section.map((sub) => (
                           <li key={sub.id}>
                             <a href={sub.url}>{sub.name}</a>
@@ -113,9 +121,11 @@ export const Header = () => {
           </div>
         </div>
 
-        {/* Navbar Center */}
+        {/* Navbar Center (Brand) */}
         <div className="navbar-center">
-          <a className="text-2xl font-semibold">{navbar.navbarBrand}</a>
+          <a className="text-2xl font-semibold" href="/">
+            {navbar.navbarBrand}
+          </a>
         </div>
 
         {/* Navbar End */}

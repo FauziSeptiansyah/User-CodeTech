@@ -1,6 +1,9 @@
 import { Layout } from "../layout/Layout";
-import { data, Link, useParams } from "react-router-dom";
+import { useState } from "react";
+import { Link, useParams } from "react-router-dom";
 import FetchData from "../hooks/FetchData";
+import { FiCalendar } from "react-icons/fi";
+import { FiEye } from "react-icons/fi";
 
 export const DetailBlog = () => {
   const api = import.meta.env.VITE_API;
@@ -8,143 +11,239 @@ export const DetailBlog = () => {
   // Hit data page
   const { data: dataPage } = FetchData({ url: `${api}/pages` });
 
-  // Cek dataPage sebelum filter
-  const pagesFilter = dataPage?.data?.filter((page) => page.type === "blog");
-
-  // Hit data kategori
-  const { data: dataCategories } = FetchData({
-    url: `${api}/category-articles`,
-  });
-
   // Hit data blog
   const { data: dataBlog } = FetchData({ url: `${api}/articles` });
 
   const { slug } = useParams();
+
+  // Cek dataPage sebelum filter
+  const pagesFilter = dataPage?.data?.filter((page) => page.type === "blog");
+
+  // Cari artikel berdasarkan slug
   const selectedBlog = dataBlog?.data?.find((blog) => blog.slug === slug);
 
+  // State filter artikel
+  const [searchQuery, setSearchQuery] = useState("");
+
+  // Handler input pencarian
+  const handleSearch = (e) => setSearchQuery(e.target.value);
+
+  // Filter artikel berdasarkan judul
+  const filteredBlogs = dataBlog?.data?.filter((article) =>
+    article.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  // Loading atau data belum tersedia
+  if (!dataPage || !dataBlog) {
+    return (
+      <Layout>
+        <div className="p-10 text-center text-gray-600">Loading...</div>
+      </Layout>
+    );
+  }
+
+  // Jika blog tidak ditemukan
   if (!selectedBlog) {
-    return <div>Blog not found</div>;
+    return (
+      <Layout>
+        <div className="p-10 text-center text-red-500 font-semibold">
+          Blog tidak ditemukan.
+        </div>
+      </Layout>
+    );
   }
 
   return (
     <Layout>
+      {/* Hero Section */}
       <section className="relative w-full">
         {pagesFilter?.map((page) => (
-          <div key={page.id} className="relative h-full w-full">
+          <div key={page.id} className="relative w-full">
+            {/* Gambar latar hero */}
             <img
               src={`${import.meta.env.VITE_IMG}${page.banner}`}
               alt="Hero Background"
-              className="w-full h-full object-cover"
+              className="w-full h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] object-cover"
             />
-            <div className="absolute inset-0 flex items-center justify-center px-4 text-center -mt-20">
+            {/* Teks overlay */}
+            <div className="absolute inset-0 flex items-center justify-center px-4 text-center -mt-10 sm:-mt-16 md:-mt-20">
               <div className="max-w-6xl">
-                <div className="mb-10">
-                  <h1 className="mb-3 text-5xl font-bold">{page.title}</h1>
-                  <p className="text-md text-gray-400">{page.description}</p>
-                </div>
+                <h1 className="mb-2 sm:mb-3 text-3xl sm:text-4xl md:text-5xl font-bold">
+                  {page.title}
+                </h1>
+                <p className="text-sm sm:text-md text-gray-400">
+                  {page.description}
+                </p>
               </div>
             </div>
           </div>
         ))}
       </section>
 
-      {/* Blog */}
-      <section className="relative z-10 -mt-40 px-4">
-        <div className="max-w-6xl mx-auto bg-white rounded-3xl bg-gradient-to-b from-white to-0% p-6 md:p-12 text-center items-center">
+      {/* Blog Detail Section */}
+      <section className="relative z-10 -mt-20 sm:-mt-32 md:-mt-40 px-4">
+        <div className="max-w-6xl mx-auto bg-white rounded-3xl p-6 md:p-12">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Detail Blog */}
-            <div className="col-span-2 w-full items-start text-left">
-              <div className="overflow-hidden mb-8">
+            {/* Blog Detail Content */}
+            <div className="md:col-span-2 space-y-5 text-left">
+              <div className="mb-8 rounded-xl overflow-hidden shadow">
                 <img
                   src={`${import.meta.env.VITE_IMG}${selectedBlog.thumbnail}`}
                   alt={selectedBlog.title}
-                  className="w-full h-64 object-cover rounded-lg"
+                  className="w-full h-[300px] sm:h-[400px] object-cover"
                 />
               </div>
-              <div className="space-y-4">
-                <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
-                  {selectedBlog.title}
-                </h1>
-                <span className="text-sm text-indigo-600 font-medium">
-                  Post on : {selectedBlog.created_at && selectedBlog.created_at.slice(0, 10)}
-                </span>
-                <div className="text-gray-700 text-base space-y-4">
-                  {selectedBlog.description}
+
+              {/* Info tanggal dan view */}
+              <div className="text-sm text-gray-500 flex flex-wrap items-center gap-3">
+                <div className="flex items-center gap-1">
+                  <FiCalendar className="text-indigo-500" />
+                  <span className="font-medium text-indigo-600">
+                    {new Date(selectedBlog.created_at).toLocaleDateString(
+                      "id-ID",
+                      {
+                        weekday: "long",
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      }
+                    )}
+                  </span>
+                </div>
+                <div className="flex items-center gap-1">
+                  <FiEye className="text-indigo-500" />
+                  <span>{selectedBlog.views} views</span>
                 </div>
               </div>
+
+              <h1 className="text-3xl md:text-4xl font-extrabold text-gray-900 leading-tight">
+                {selectedBlog.title}
+              </h1>
+
+              {/* Isi konten blog */}
+              <div
+                className="text-gray-800 leading-relaxed prose max-w-none"
+                dangerouslySetInnerHTML={{ __html: selectedBlog.description }}
+              ></div>
             </div>
 
-            <div className="space-y-4">
-              {/* Search menu */}
-              <div className="flex justify-center">
-                <div className="relative w-full">
-                  <input
-                    type="text"
-                    placeholder="Search for keywords..."
-                    className="w-full px-6 py-3 text-gray-600 rounded-md shadow-sm"
-                  />
-                  <button className="absolute right-4 top-1/2 transform -translate-y-1/2 text-black">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                  </button>
-                </div>
+            {/* Sidebar */}
+            <div className="space-y-6">
+              {/* Pencarian */}
+              <div className="relative">
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={handleSearch}
+                  placeholder="Search for keywords..."
+                  className="w-full px-6 py-3 text-gray-600 rounded-md shadow-sm"
+                />
+                <button className="absolute right-4 top-1/2 transform -translate-y-1/2 text-black">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </button>
               </div>
 
-              {/* box category */}
-              <div className="bg-white rounded-xl p-6 shadow-md w-full h-fit">
-                <h3 className="text-start text-base font-semibold mb-4 text-black">
-                  Category Article
-                </h3>
-                <div className="flex flex-wrap gap-3">
-                  {dataCategories?.data?.map((category) => (
-                    <a
-                      key={category.id}
-                      href="#"
-                      className="text-sm text-gray-600 hover:text-indigo-600 transition duration-300 border border-gray-300 px-4 py-2 rounded-full"
-                    >
-                      {category.category}
-                    </a>
-                  ))}
-                </div>
-              </div>
+              {/* Hasil Pencarian */}
+              {searchQuery && (
+                <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100 space-y-4">
+                  <h4 className="text-base font-semibold text-gray-800">
+                    Hasil Pencarian
+                  </h4>
 
-              {/* box list article */}
-              <div className="bg-white rounded-xl p-6 shadow-md w-full h-fit">
-                <h3 className="text-start text-base font-semibold mb-4 text-black">
+                  {filteredBlogs?.length > 0 ? (
+                    filteredBlogs.map((blog) => (
+                      <Link
+                        to={`/blog/${blog.slug}`}
+                        key={blog.id}
+                        className="flex items-center gap-4 hover:bg-neutral-50 transition p-2 rounded-lg"
+                      >
+                        <img
+                          src={`${import.meta.env.VITE_IMG}${blog.thumbnail}`}
+                          alt={blog.title}
+                          className="w-14 h-14 rounded-xl object-cover border shadow-sm"
+                        />
+                        <div className="text-start">
+                          <h4 className="text-sm font-medium text-gray-800 leading-tight line-clamp-2">
+                            {blog.title}
+                          </h4>
+                          <div className="flex items-center gap-1 text-xs text-gray-500 mt-1">
+                            <FiCalendar className="text-indigo-400" />
+                            <span>
+                              {new Date(blog.created_at).toLocaleDateString(
+                                "id-ID",
+                                {
+                                  day: "2-digit",
+                                  month: "short",
+                                  year: "numeric",
+                                }
+                              )}
+                            </span>
+                          </div>
+                        </div>
+                      </Link>
+                    ))
+                  ) : (
+                    <p className="text-sm text-gray-400 italic">
+                      Tidak ditemukan.
+                    </p>
+                  )}
+                </div>
+              )}
+
+              {/* Artikel Terbaru */}
+              <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
+                <h3 className="text-base font-semibold text-gray-800 mb-4">
                   Recent Posts
                 </h3>
-                <div className="space-y-4">
-                  {dataBlog?.data?.map((blog) => (
-                    <Link
-                      to="/home"
-                      key={blog.id}
-                      className="flex text-start items-start space-x-3"
-                    >
-                      <img
-                        src={`${import.meta.env.VITE_IMG}${blog.thumbnail}`}
-                        alt={blog.title}
-                        className="w-12 h-12 rounded-md object-cover flex-shrink-0"
-                      />
-                      <div className="flex flex-col justify-center">
-                        <h4 className="text-sm font-semibold text-gray-900 leading-tight line-clamp-2">
-                          {blog.title}
-                        </h4>
-                        <span className="text-xs text-gray-400 mt-1">
-                          {blog.created_at && blog.created_at.slice(0, 10)}
-                        </span>
-                      </div>
-                    </Link>
-                  ))}
+
+                <div className="space-y-3">
+                  {dataBlog?.data
+                    ?.sort(
+                      (a, b) => new Date(b.created_at) - new Date(a.created_at)
+                    )
+                    ?.slice(0, 5)
+                    ?.map((blog) => (
+                      <Link
+                        to={`/blog/${blog.slug}`}
+                        key={blog.id}
+                        className="flex items-center gap-4 hover:bg-neutral-50 transition p-2 rounded-lg"
+                      >
+                        <img
+                          src={`${import.meta.env.VITE_IMG}${blog.thumbnail}`}
+                          alt={blog.title}
+                          className="w-14 h-14 rounded-xl object-cover border shadow-sm"
+                        />
+                        <div className="text-start">
+                          <h4 className="text-sm font-medium text-gray-800 leading-tight line-clamp-2">
+                            {blog.title}
+                          </h4>
+                          <div className="flex items-center gap-1 text-xs text-gray-500 mt-1">
+                            <FiCalendar className="text-indigo-400" />
+                            <span>
+                              {new Date(blog.created_at).toLocaleDateString(
+                                "id-ID",
+                                {
+                                  day: "2-digit",
+                                  month: "short",
+                                  year: "numeric",
+                                }
+                              )}
+                            </span>
+                          </div>
+                        </div>
+                      </Link>
+                    ))}
                 </div>
               </div>
             </div>

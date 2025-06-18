@@ -1,9 +1,6 @@
-import {
-  FaFacebookF,
-  FaTwitter,
-  FaInstagram,
-  FaGooglePlusG,
-} from "react-icons/fa";
+import { AiFillInstagram } from "react-icons/ai";
+import { FaXTwitter } from "react-icons/fa6";
+import { FaTiktok, FaFacebookF } from "react-icons/fa";
 
 export const Footer = () => {
   return (
@@ -56,23 +53,47 @@ export const Footer = () => {
         </div>
 
         {/* Bagian bawah */}
-        <div className="mt-12 relative flex items-center mx-auto">
-          {/* Copyright kiri */}
-          <p className="text-sm text-gray-500 mr-4">© 2025 CodeTech</p>
+        <div className="mt-12 relative max-w-6xl mx-auto">
+          {/* Mobile view: flex column (visible only on small screens) */}
+          <div className="flex flex-col items-center gap-4 md:hidden">
+            {/* Icon sosmed */}
+            <div className="flex gap-4">
+              <div className="p-2 bg-gray-100 rounded-full text-gray-600 hover:text-gray-800">
+                <AiFillInstagram />
+              </div>
+              <div className="p-2 bg-gray-100 rounded-full text-gray-600 hover:text-gray-800">
+                <FaTiktok />
+              </div>
+              <div className="p-2 bg-gray-100 rounded-full text-gray-600 hover:text-gray-800">
+                <FaXTwitter />
+              </div>
+              <div className="p-2 bg-gray-100 rounded-full text-gray-600 hover:text-gray-800">
+                <FaFacebookF />
+              </div>
+            </div>
+            {/* Copyright bawah */}
+            <p className="text-sm text-gray-500">© 2025 CodeTech</p>
+          </div>
 
-          {/* Icon sosmed tengah secara absolut */}
-          <div className="absolute left-1/2 transform -translate-x-1/2 flex gap-4">
-            <div className="p-2 bg-gray-100 rounded-full text-gray-600 hover:text-gray-800">
-              <FaFacebookF />
-            </div>
-            <div className="p-2 bg-gray-100 rounded-full text-gray-600 hover:text-gray-800">
-              <FaTwitter />
-            </div>
-            <div className="p-2 bg-gray-100 rounded-full text-gray-600 hover:text-gray-800">
-              <FaInstagram />
-            </div>
-            <div className="p-2 bg-gray-100 rounded-full text-gray-600 hover:text-gray-800">
-              <FaGooglePlusG />
+          {/* Desktop view: absolute icon + inline copyright */}
+          <div className="hidden md:flex items-center mx-auto gap-8">
+            {/* Copyright kiri */}
+            <p className="text-sm text-gray-500 mr-4">© 2025 CodeTech</p>
+
+            {/* Icon sosmed tengah secara absolut */}
+            <div className="absolute left-1/2 transform -translate-x-1/2 flex gap-4">
+              <div className="p-2 bg-gray-100 rounded-full text-gray-600 hover:text-gray-800">
+                <AiFillInstagram />
+              </div>
+              <div className="p-2 bg-gray-100 rounded-full text-gray-600 hover:text-gray-800">
+                <FaTiktok />
+              </div>
+              <div className="p-2 bg-gray-100 rounded-full text-gray-600 hover:text-gray-800">
+                <FaXTwitter />
+              </div>
+              <div className="p-2 bg-gray-100 rounded-full text-gray-600 hover:text-gray-800">
+                <FaFacebookF />
+              </div>
             </div>
           </div>
         </div>

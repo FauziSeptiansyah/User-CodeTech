@@ -31,20 +31,26 @@ export const CreativeAgency = () => {
 
   return (
     <Layout>
-      {/* Hero */}
+      {/* Hero Section */}
       <section className="relative w-full">
         {pagesFilter?.map((page) => (
-          <div key={page.id} className="relative h-full w-full">
+          <div key={page.id} className="relative w-full">
+            {/* Gambar Latar Hero */}
             <img
               src={`${import.meta.env.VITE_IMG}${page.banner}`}
               alt="Hero Background"
-              className="w-full h-full object-cover"
+              className="w-full h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] object-cover"
             />
-            <div className="absolute inset-0 flex items-center justify-center px-4 text-center -mt-20">
+            {/* Teks Hero */}
+            <div className="absolute inset-0 flex items-center justify-center px-4 text-center -mt-10 sm:-mt-16 md:-mt-20">
               <div className="max-w-6xl">
-                <div className="mb-10">
-                  <h1 className="mb-3 text-5xl font-bold">{page.title}</h1>
-                  <p className="text-md text-gray-400">{page.description}</p>
+                <div className="mb-6 sm:mb-8 md:mb-10">
+                  <h1 className="mb-2 sm:mb-3 text-3xl sm:text-4xl md:text-5xl font-bold">
+                    {page.title}
+                  </h1>
+                  <p className="text-sm sm:text-md text-gray-400">
+                    {page.description}
+                  </p>
                 </div>
               </div>
             </div>
@@ -52,9 +58,10 @@ export const CreativeAgency = () => {
         ))}
       </section>
 
-      {/* Harga */}
-      <section className="relative z-10 -mt-40 px-4">
-        <div className="max-w-6xl mx-auto bg-white rounded-3xl bg-gradient-to-b from-white to-0% p-6 md:p-12 text-center items-center">
+      {/* Harga Section */}
+      <section className="relative z-10 -mt-20 sm:-mt-32 md:-mt-40 px-4">
+        <div className="max-w-6xl mx-auto bg-white rounded-3xl bg-gradient-to-b from-white to-0% p-6 md:p-12 text-center">
+          {/* Judul dan Deskripsi */}
           <h3 className="text-indigo-600 font-semibold text-sm uppercase">
             {harga.subtitle}
           </h3>
@@ -65,55 +72,39 @@ export const CreativeAgency = () => {
             {harga.description}
           </p>
 
-          <div className="flex justify-center">
-            <div className="w-full max-w-6xl">
-              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 justify-center">
-                {productFilter?.map((product, index) => (
-                  <div
-                    key={index}
-                    className="bg-white rounded-xl shadow-lg p-6 flex flex-col justify-between text-center"
-                  >
-                    <img
-                      src={`${import.meta.env.VITE_IMG}${product.icon}`}
-                      alt={product.title}
-                      className="w-5 h-5 mx-auto"
-                    />
-                    <h4 className="text-md font-medium text-gray-800 mb-2 mt-4">
-                      {product.title}
-                    </h4>
-                    <p className="text-gray-800 font-semibold text-xl mb-4">
-                      {product.price}
-                    </p>
-                    <hr className="border-t border-gray-300 mb-4" />
+          {/* Daftar Produk */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 justify-center">
+            {productFilter?.map((product, index) => (
+              <div
+                key={index}
+                className="bg-white rounded-xl shadow-lg p-6 flex flex-col text-center"
+              >
+                {/* Icon Produk */}
+                <img
+                  src={`${import.meta.env.VITE_IMG}${product.icon}`}
+                  alt={product.title}
+                  className="w-5 h-5 mx-auto"
+                />
 
-                    <ul className="text-left text-sm text-gray-600 mb-4 space-y-2">
-                      {product.description}
-                    </ul>
+                {/* Judul dan Harga */}
+                <h4 className="text-md font-medium text-gray-800 mb-2 mt-4">
+                  {product.title}
+                </h4>
+                <p className="text-gray-800 font-semibold text-xl mb-4">
+                  {product.price}
+                </p>
 
-                    {/* {item.features?.length > 0 && (
-                      <ul className="text-left text-sm text-gray-600 mb-4 space-y-2">
-                        {item.features.map((feature, idx) => (
-                          <li key={idx}>• {feature}</li>
-                        ))}
-                      </ul>
-                    )}
+                <hr className="border-t border-gray-300 mb-4" />
 
-                    {item.provision && (
-                      <>
-                        <p className="text-left text-sm text-gray-600 font-semibold mb-1">
-                          {item.provision.description}
-                        </p>
-                        <ul className="text-left text-sm text-gray-600 space-y-1">
-                          {item.provision.listProvision?.map((prov, idx) => (
-                            <li key={idx}>• {prov}</li>
-                          ))}
-                        </ul>
-                      </>
-                    )} */}
-                  </div>
-                ))}
+                {/* Deskripsi Produk */}
+                <div
+                  className="text-gray-700 text-base space-y-4"
+                  dangerouslySetInnerHTML={{
+                    __html: product.description,
+                  }}
+                />
               </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
