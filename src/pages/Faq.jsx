@@ -1,6 +1,7 @@
 import { Layout } from "../layout/Layout";
 import { useState, useEffect } from "react";
 import FetchData from "../hooks/FetchData";
+import { faqContent } from "../utils/data";
 
 export const Faq = () => {
   const api = import.meta.env.VITE_API;
@@ -33,13 +34,6 @@ export const Faq = () => {
     dataFaq?.data?.filter(
       (question) => question.category === selectedCategory
     ) || [];
-
-  const faqContent = {
-    subtitle: "Tanya Jawab",
-    title: "Pertanyaan & Jawaban Yang Sering Ditanyakan",
-    description:
-      "Kami telah mengumpulkan pertanyaan umum yang sering diajukan oleh klien kami dan menjawabnya secara komprehensif.",
-  };
 
   const toggleDropdown = (index) => {
     setOpenIndex(openIndex === index ? null : index);

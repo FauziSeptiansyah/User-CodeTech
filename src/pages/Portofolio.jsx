@@ -1,6 +1,7 @@
 import { Layout } from "../layout/Layout";
 import FetchData from "../hooks/FetchData";
 import AutoSwiper from "../components/AutoSwiper";
+import { portofolio } from "../utils/data";
 
 export const Portofolio = () => {
   const api = import.meta.env.VITE_API;
@@ -19,13 +20,6 @@ export const Portofolio = () => {
   const { data: dataPortofolio } = FetchData({
     url: `${api}/portfolios`,
   });
-
-  const portofolio = {
-    subtitle: "Portofolio",
-    title: "Karya Terbaik untuk Setiap Ide Hebat",
-    description:
-      "Kami percaya bahwa setiap proyek adalah bukti nyata dari kolaborasi, inovasi, dan dedikasi. Dengan pengalaman dalam mengerjakan berbagai proyek, kami berkomitmen menghadirkan solusi yang tepat sasaran dan berdampak positif bagi setiap klien.",
-  };
 
   return (
     <Layout>

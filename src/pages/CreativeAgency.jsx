@@ -1,5 +1,6 @@
 import { Layout } from "../layout/Layout";
 import FetchData from "../hooks/FetchData";
+import { hargaDesign } from "../utils/data";
 
 export const CreativeAgency = () => {
   const api = import.meta.env.VITE_API;
@@ -21,13 +22,6 @@ export const CreativeAgency = () => {
   const productFilter = dataProduct?.data?.filter(
     (product) => product.type === "design"
   );
-
-  const harga = {
-    subtitle: "Creative Agency",
-    title: "Harga Jasa Creative Agency di CodeTech",
-    description:
-      "Kami menyediakan solusi bisnis terintegrasi, mulai dari perencanaan, desain, pengembangan, hingga digital marketing untuk mendorong pertumbuhan bisnis Anda.",
-  };
 
   return (
     <Layout>
@@ -63,13 +57,13 @@ export const CreativeAgency = () => {
         <div className="max-w-6xl mx-auto bg-white rounded-3xl bg-gradient-to-b from-white to-0% p-6 md:p-12 text-center">
           {/* Judul dan Deskripsi */}
           <h3 className="text-indigo-600 font-semibold text-sm uppercase">
-            {harga.subtitle}
+            {hargaDesign.subtitle}
           </h3>
           <h2 className="text-2xl md:text-3xl font-bold mb-4 text-black">
-            {harga.title}
+            {hargaDesign.title}
           </h2>
           <p className="text-gray-600 mb-12 max-w-xl mx-auto">
-            {harga.description}
+            {hargaDesign.description}
           </p>
 
           {/* Daftar Produk */}
@@ -98,11 +92,11 @@ export const CreativeAgency = () => {
 
                 {/* Deskripsi Produk */}
                 <div
-                  className="text-gray-700 text-base space-y-4"
+                  className="trix-content text-gray-700 text-base space-y-4 text-left"
                   dangerouslySetInnerHTML={{
                     __html: product.description,
                   }}
-                />
+                ></div>
               </div>
             ))}
           </div>

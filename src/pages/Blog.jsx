@@ -2,8 +2,8 @@ import { Layout } from "../layout/Layout";
 import { Link } from "react-router-dom";
 import FetchData from "../hooks/FetchData";
 import { useState } from "react";
-import { FiCalendar } from "react-icons/fi";
-import { FiEye } from "react-icons/fi";
+import { FiCalendar, FiEye } from "react-icons/fi";
+import { blogContent } from "../utils/data";
 
 export const Blog = () => {
   const api = import.meta.env.VITE_API;
@@ -21,13 +21,6 @@ export const Blog = () => {
 
   // Hit data blog
   const { data: dataBlog } = FetchData({ url: `${api}/articles` });
-
-  const blogContent = {
-    subtitle: "Blog",
-    title: "Wawasan, Tips, & Cerita Terbaru untuk Anda",
-    description:
-      "Kami menghadirkan berbagai artikel informatif, inspiratif, dan relevan yang dirancang untuk membantu Anda mendapatkan pemahaman yang lebih baik, menemukan solusi, dan tetap terhubung dengan tren terbaru. Temukan panduan praktis, ulasan mendalam, hingga berita terbaru yang kami sajikan khusus untuk Anda.",
-  };
 
   // State filter artikel
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -203,9 +196,8 @@ export const Blog = () => {
                           className="text-sm text-gray-600 line-clamp-3"
                           dangerouslySetInnerHTML={{
                             __html:
-                              blog.description.length > 200
-                                ? blog.description.slice(0, 200) + "..."
-                                : blog.description,
+                              blog.description.slice(0, 150) +
+                              "...",
                           }}
                         ></p>
                       </div>

@@ -1,5 +1,6 @@
 import { Layout } from "../layout/Layout";
 import FetchData from "../hooks/FetchData";
+import { hargaWebsite } from "../utils/data";
 
 export const JasaPembuatanWeb = () => {
   const api = import.meta.env.VITE_API;
@@ -21,13 +22,6 @@ export const JasaPembuatanWeb = () => {
   const productFilter = dataProduct?.data?.filter(
     (product) => product.type === "website"
   );
-
-  const harga = {
-    subtitle: "Website",
-    title: "Harga Website di CodeTech",
-    description:
-      "Lebih dari 2.000 website profesional yang telah berhasil tim profesional kami bangun dan online optimal.",
-  };
 
   return (
     <Layout>
@@ -59,13 +53,13 @@ export const JasaPembuatanWeb = () => {
       <section className="relative z-10 -mt-20 sm:-mt-32 md:-mt-40 px-4">
         <div className="max-w-6xl mx-auto bg-white rounded-3xl bg-gradient-to-b from-white to-0% p-6 md:p-12 text-center items-center">
           <h3 className="text-indigo-600 font-semibold text-sm uppercase">
-            {harga.subtitle}
+            {hargaWebsite.subtitle}
           </h3>
           <h2 className="text-2xl md:text-3xl font-bold mb-4 text-black">
-            {harga.title}
+            {hargaWebsite.title}
           </h2>
           <p className="text-gray-600 mb-12 max-w-xl mx-auto">
-            {harga.description}
+            {hargaWebsite.description}
           </p>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -74,7 +68,9 @@ export const JasaPembuatanWeb = () => {
                 key={index}
                 className="bg-white rounded-xl shadow-lg p-6 flex flex-col justify-between"
               >
-                <h4 className="text-md font-medium mb-2 text-gray-800">{product.title}</h4>
+                <h4 className="text-md font-medium mb-2 text-gray-800">
+                  {product.title}
+                </h4>
                 <p className="text-gray-800 font-semibold text-xl">
                   {product.price}
                 </p>
@@ -83,7 +79,7 @@ export const JasaPembuatanWeb = () => {
                 </span>
                 <hr className="border-t border-gray-300 mb-6" />
                 <div
-                  className="text-gray-700 text-base space-y-4"
+                  className="trix-content text-gray-700 text-base space-y-4 text-left"
                   dangerouslySetInnerHTML={{
                     __html: product.description,
                   }}

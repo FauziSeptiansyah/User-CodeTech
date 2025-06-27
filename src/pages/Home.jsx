@@ -3,6 +3,12 @@ import FetchData from "../hooks/FetchData";
 import bgImage from "../assets/image/background-blue.png";
 import { Link } from "react-router-dom";
 import AutoSwiper from "../components/AutoSwiper";
+import {
+  keunggulan,
+  hargaWebsite,
+  portofolio,
+  konsultasi,
+} from "../utils/data";
 
 export const Home = () => {
   const api = import.meta.env.VITE_API;
@@ -25,14 +31,6 @@ export const Home = () => {
     url: `${api}/services`,
   });
 
-  const keunggulan = {
-    subtitle: "Keunggulan",
-    title: "Kenapa CodeTech Layak Jadi Pilihan Anda?",
-    description:
-      "Kami tidak hanya menawarkan layanan, kami menghadirkan solusi digital terintegrasi yang dirancang untuk mendukung pertumbuhan bisnis Anda secara berkelanjutan. Dengan memadukan inovasi, teknologi terkini, dan pendekatan yang berfokus pada kebutuhan pengguna, kami membantu Anda membangun fondasi digital yang kuat, efisien, dan siap bersaing di era modern.",
-    slogan: "Ayo, Mulai Transformasi Digital Anda Hari Ini!",
-  };
-
   // Hit data Layanan
   const { data: dataProduct } = FetchData({
     url: `${api}/products`,
@@ -43,41 +41,15 @@ export const Home = () => {
     (product) => product.type === "website"
   );
 
-  const harga = {
-    subtitle: "Website",
-    title: "Harga Website di CodeTech",
-    description:
-      "Lebih dari 2.000 website profesional yang telah berhasil tim profesional kami bangun dan online optimal.",
-  };
-
   // Hit data Portofolio
   const { data: dataPortofolio } = FetchData({
     url: `${api}/portfolios`,
   });
 
-  const portofolio = {
-    subtitle: "Portofolio",
-    title: "Karya Terbaik untuk Setiap Ide Hebat",
-    description:
-      "Kami percaya bahwa setiap proyek adalah bukti nyata dari kolaborasi, inovasi, dan dedikasi. Dengan pengalaman dalam mengerjakan berbagai proyek, kami berkomitmen menghadirkan solusi yang tepat sasaran dan berdampak positif bagi setiap klien.",
-  };
-
   // Hit data Kontak
   const { data: dataKontak } = FetchData({
     url: `${api}/contacts`,
   });
-
-  const konsultasi = {
-    subtitle: "Konsultasi",
-    title: "Konsultasikan Sekarang!",
-    description: [
-      "Jangan ragu! Wujudkan kebutuhan digital Anda bersama CodeTech.",
-      "Kami siap menjadi rekan Anda dengan konsultasi gratis 24 jam nonstop. Tim kami hadir untuk memahami tujuan dan tantangan Anda, memberikan solusi tepat guna, dan membantu Anda meraih sukses digital yang tepat sasaran.",
-      "Manfaatkan kesempatan ini sebaik mungkin!",
-      "Hubungi kami untuk konsultasi gratis, dan mulailah perjalanan menuju keberhasilan digital bagi bisnis Anda.",
-    ],
-    buttonLink: `https://wa.me/${dataKontak?.data?.phone || ""}`, // ✅ pakai string template benar
-  };
 
   return (
     <Layout>
@@ -90,7 +62,7 @@ export const Home = () => {
               alt="Hero Background"
               className="w-full h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] object-cover"
             />
-            <div className="absolute inset-0 flex items-center justify-center px-4 text-center -mt-10 sm:-mt-16 md:-mt-20">
+            <div className="absolute inset-0 flex items-center justify-center px-4 text-center">
               <div className="max-w-6xl">
                 <div className="mb-6 sm:mb-8 md:mb-10">
                   <h1 className="mb-2 sm:mb-3 text-3xl sm:text-4xl md:text-5xl font-bold">
@@ -110,7 +82,7 @@ export const Home = () => {
       </section>
 
       {/* Profil Section */}
-      <section className="relative z-10 -mt-20 sm:-mt-32 md:-mt-40 px-4">
+      <section className="relative z-10 px-4 -mt-8 sm:-mt-12 md:-mt-16">
         <div className="max-w-6xl mx-auto bg-white rounded-3xl p-6 md:p-12 flex flex-col md:flex-row items-center gap-8">
           <div className="w-full md:w-1/2">
             <img
@@ -126,9 +98,12 @@ export const Home = () => {
             <h2 className="text-2xl md:text-3xl font-bold mb-4 text-black">
               {dataProfil?.data?.title}
             </h2>
-            <p className="text-gray-700 mb-4">
-              {dataProfil?.data?.description?.slice(0, 360)}...
-            </p>
+            <div
+              className="trix-content text-gray-700 text-base space-y-4 mb-4"
+              dangerouslySetInnerHTML={{
+                __html: dataProfil?.data?.description.slice(0, 430) + "...",
+              }}
+            ></div>
             <button className="btn btn-outline btn-primary">
               <Link to={`/profil`}>Read More</Link>
             </button>
@@ -179,13 +154,13 @@ export const Home = () => {
       <section className="relative z-10 px-4">
         <div className="max-w-6xl mx-auto px-6 text-center">
           <h3 className="text-indigo-600 font-semibold text-sm uppercase">
-            {harga.subtitle}
+            {hargaWebsite.subtitle}
           </h3>
           <h2 className="text-2xl md:text-3xl font-bold mb-4 text-black">
-            {harga.title}
+            {hargaWebsite.title}
           </h2>
           <p className="text-gray-600 mb-12 max-w-xl mx-auto">
-            {harga.description}
+            {hargaWebsite.description}
           </p>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {productFilter?.map((product, index) => (
@@ -204,8 +179,10 @@ export const Home = () => {
                 </span>
                 <hr className="border-t border-gray-300 mb-6" />
                 <div
-                  className="text-gray-700 text-base space-y-4"
-                  dangerouslySetInnerHTML={{ __html: product.description }}
+                  className="trix-content text-gray-700 text-base space-y-4 text-left"
+                  dangerouslySetInnerHTML={{
+                    __html: product.description,
+                  }}
                 ></div>
                 <button className="bg-violet-600 text-white px-4 py-2 rounded-md hover:bg-violet-700 transition">
                   Pesan Sekarang
@@ -288,7 +265,7 @@ export const Home = () => {
             ))}
           </div>
           <a
-            href={konsultasi.buttonLink}
+            href={`https://wa.me/${dataKontak?.data?.phone || ""}`}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-block bg-indigo-700 text-white font-medium px-6 py-3 rounded-sm shadow hover:bg-indigo-100 transition"

@@ -1,10 +1,12 @@
 import { Layout } from "../layout/Layout";
 import FetchData from "../hooks/FetchData";
+import { mapContent } from "../utils/data";
 
 // icon kontak
 import phone from "../assets/image/telepon.png";
 import email from "../assets/image/email.png";
 import office_operation from "../assets/image/jam.png";
+
 
 export const Kontak = () => {
   const api = import.meta.env.VITE_API;
@@ -21,13 +23,6 @@ export const Kontak = () => {
   const { data: dataKontak } = FetchData({
     url: `${api}/contacts`,
   });
-
-  const mapContent = {
-    subtitle: "Tanya Jawab",
-    title: "Pertanyaan & Jawaban Yang Sering Ditanyakan",
-    description:
-      "Kami telah mengumpulkan pertanyaan umum yang sering diajukan oleh klien kami dan menjawabnya secara komprehensif.",
-  };
 
   return (
     <Layout>

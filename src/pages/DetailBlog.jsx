@@ -1,9 +1,9 @@
 import { Layout } from "../layout/Layout";
-import { useState } from "react";
+import { useState, useEffect, use, useRef } from "react";
+import axios from "axios";
 import { Link, useParams } from "react-router-dom";
 import FetchData from "../hooks/FetchData";
-import { FiCalendar } from "react-icons/fi";
-import { FiEye } from "react-icons/fi";
+import { FiCalendar, FiEye } from "react-icons/fi";
 
 export const DetailBlog = () => {
   const api = import.meta.env.VITE_API;
@@ -32,6 +32,36 @@ export const DetailBlog = () => {
   const filteredBlogs = dataBlog?.data?.filter((article) =>
     article.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  const hasFetched = useRef(false);
+  const timerRef = useRef(null);
+
+  // Counter Views setelah 10 detik
+  useEffect(() => {
+    hasFetched.current = false;
+    const key = `viewed_${slug}`;
+    const alreadyViewed = localStorage.getItem(key);
+
+    if (alreadyViewed) return;
+
+    timerRef.current = setTimeout(() => {
+      if (!hasFetched.current) {
+        hasFetched.current = true;
+        axios
+          .get(`${api}/articles/${slug}/views`)
+          .then(() => {
+            localStorage.setItem(key, "true");
+          })
+          .catch((err) => {
+            console.error("View counter error:", err);
+          });
+      }
+    }, 10000); // delay 10 detik
+
+    return () => {
+      clearTimeout(timerRef.current); // jika user keluar sebelum 10 detik
+    };
+  }, [slug]);
 
   // Loading atau data belum tersedia
   if (!dataPage || !dataBlog) {
@@ -112,7 +142,10 @@ export const DetailBlog = () => {
                 </div>
                 <div className="flex items-center gap-1">
                   <FiEye className="text-indigo-500" />
-                  <span>{selectedBlog.views} views</span>
+                  <span>
+                    {selectedBlog.views + ""}
+                    views
+                  </span>
                 </div>
               </div>
 
@@ -123,7 +156,9 @@ export const DetailBlog = () => {
               {/* Isi konten blog */}
               <div
                 className="text-gray-800 leading-relaxed prose max-w-none"
-                dangerouslySetInnerHTML={{ __html: selectedBlog.description }}
+                dangerouslySetInnerHTML={{
+                  __html: selectedBlog.description,
+                }}
               ></div>
             </div>
 

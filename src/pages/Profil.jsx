@@ -1,6 +1,7 @@
 import { Layout } from "../layout/Layout";
 import FetchData from "../hooks/FetchData";
 import PanoramaSwiper from "../components/PanoramaSwiper";
+import { team } from "../utils/data";
 
 export const Profil = () => {
   const api = import.meta.env.VITE_API;
@@ -22,13 +23,6 @@ export const Profil = () => {
   const { data: dataUsers } = FetchData({
     url: `${api}/users`,
   });
-
-  const team = {
-    subtitle: "Tim Kami",
-    title: "Bangun Website Anda, Raih Kesuksesan Anda",
-    description:
-      "Dari mengatasi tantangan teknis hingga mendorong pertumbuhan bisnis, tim kami siap mendukung setiap langkah Anda. Mulailah perjalanan digital Anda bersama CodeTech, dan wujudkan kesuksesan yang lebih besar dengan solusi yang tepat dan terpercaya.",
-  };
 
   return (
     <Layout>
@@ -74,12 +68,12 @@ export const Profil = () => {
             <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-3 sm:mb-4 text-black">
               {dataProfil?.data?.title}
             </h2>
-            <p className="text-gray-700 mb-3 sm:mb-4 text-sm sm:text-base">
-              {dataProfil?.data?.description?.slice(0, 450) + "..."}
-            </p>
-            <button className="btn btn-outline btn-primary text-sm sm:text-base">
-              Read More
-            </button>
+            <p
+              className="trix-content text-gray-700 text-base space-y-4 mb-4"
+              dangerouslySetInnerHTML={{
+                __html: dataProfil?.data?.description,
+              }}
+            ></p>
           </div>
         </div>
       </section>
